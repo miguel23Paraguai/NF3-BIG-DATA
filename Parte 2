@@ -1,0 +1,71 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+GitLink = 'https://raw.githubusercontent.com/miguel23Paraguai/NF3-BIG-DATA/main/cursos-prouni_trabalhoDeBigiData.csv'
+Hub = pd.read_csv(GitLink)
+Hub
+
+
+#(--------2----A---------)
+
+Nota = [
+    "nota_integral_ampla",
+    "nota_integral_cotas",
+    "nota_parcial_ampla",
+    "nota_parcial_cotas",
+]
+Hub[Nota] = Hub[Nota].fillna(0.0)
+Hub
+
+#(-----------2--------B-------)
+
+Hub.groupby(["grau", "curso_busca"])["grau"].count()
+
+#(-------2-------C-----)
+
+grupo_cursos = Hub[Hub['curso_busca'].isin(['Matemática', 'Medicina' , 'Pedagogia'])]
+print(grupo_cursos)
+
+#(-----------2-------D--------)
+
+ValueCentral = Hub.groupby('uf_busca')['nota_integral_ampla'].median()
+ValueCentral
+
+#(-=-------2-------E---------)
+
+result = Hub.loc[Hub['grau'] == 'Tecnológico']
+result
+
+# (----------2------F-------)
+
+Delete = Hub.drop("cidade_filtro", axis=1)
+Delete
+
+#(--------2--------G-------)
+
+
+Med = Hub[Hub["nome"] == "Medicina"]
+Div = Med["mensalidade"].mean()
+Div
+
+#(--------2------H------)
+
+
+integral = Hub[Hub["turno"] == "Integral"]
+corte_median = integral["nota_integral_ampla"].mean()
+corte_median
+
+
+#(--------2------I------)
+
+
+Curso = Hub[Hub["grau"] == "Bacharelado"]
+Est = Curso["nota_integral_ampla"].describe()
+Est
+
+#(-----------2----J-------)
+
+result = Hub.groupby('grau')['nota_integral_cotas'].mean()
+result.plot.bar(x='grau')
+plot.xlabel('Tipos de Curso')
+plot.ylabel('Media das cotas')
